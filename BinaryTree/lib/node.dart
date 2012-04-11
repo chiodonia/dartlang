@@ -22,14 +22,6 @@ interface Node<V> default NodeFactory<V> {
  * Node's default class.
  */
 class NodeFactory<V>  {
-//  final value;
-
-//  abstract bool isLeaf();
-  //bool isLeaf() => false;
-//  traverse() {
-  //  print("Defalt: $value");
-  //}
-
   /** 
    * Node's default implementations.
    * A [Node] may have [left] and [right] children, on this case is a [SimpleNode].
@@ -59,9 +51,10 @@ class AbstractNode<V> implements Node {
 class BinaryNode<V> extends AbstractNode {
   //NOTE: default is public
   var value;
-  //NOTE: _ stand for private
+  //NOTE: _ stand for private.
   final _left;
-  final _right;
+  //_right is not final for demostrating setters.
+  var _right;
   
   bool isLeaf() => false;
 
@@ -74,14 +67,17 @@ class BinaryNode<V> extends AbstractNode {
       this._right.traverse(f);
     }
   }
-
   
-  //NOTE: Compact constructor syntax.
+  //NOTE: Compact constructor syntax. Node this._left stand for parameter and this._left = param (only in constructor!)
   BinaryNode(V this.value, Node this._left, Node this._right);
   
   //NOTE: Short function syntax: => stand for evaluate and return
+  //NOTE: Getters
   Node get left() => _left;
   Node get right() => _right;
+
+  //NOTE: Setters
+  set right(Node rightNode) => this._right = rightNode;
 
   // Does not work in NodeFactory!
   noSuchMethod(String functionName, List args) {
@@ -106,5 +102,4 @@ class LeafNode<V> extends AbstractNode {
   }
   
   String toString() => value.toString();
-  
 }

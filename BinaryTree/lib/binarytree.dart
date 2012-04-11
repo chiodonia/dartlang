@@ -1,5 +1,10 @@
 #library("graph:tree:binary");
 
+/** 
+ * A library provising a simple binary tree implementation. 
+ */
+
+//NOTE: public
 #source("node.dart");
 
 //NOTE: public
@@ -10,7 +15,12 @@ final _version = "0.2";
 
 final _separatorChar = "-";
 
-//NOTE: a function, Function is optional
+/** 
+ * A function that can be passed around while traversing the tree.
+ *
+ * [node] where the function is applied.
+ * NOTE: Function is optional. 
+ */
 Function loggerFucntion(Node node) {
   //NOTE: multi-line string (''' same as """)
   var indent;
@@ -23,17 +33,31 @@ ${indent}${_separator(node.value.length+1)}''';
   //NOTE: will return null
 }
 
-//NOTE: a closure, Function is optional
+/** 
+ * A closure that can be passed around while traversing the tree.
+ *
+ * [label] the label pre-fixing the logging text.
+ * [node] where the function is applied.
+ */
 Function loggerClosure([String label = "VALUE"]) {
   return (node) => print("${label}: ${node.value}");
 }
 
-//NOTE: a closure, Function is optional
+/** 
+ * A closure that can be passed around while traversing the tree.
+ *
+ * [n] the value to be added to [: node.value :].
+ * [node] where the function is applied.
+ */
 Function add([num n = 0]) {
   return (Node node) { node.value += n;};
 }
 
-//NOTE: private
+/** 
+ * Utility function to generate separators for logging nodes properly.
+ * 
+ * [len] length of the separator.
+ */
 _separator(len) {
   var str = _separatorChar;
   for (var x = 0; x < len; x++) {

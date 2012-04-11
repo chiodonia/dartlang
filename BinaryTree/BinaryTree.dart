@@ -2,25 +2,11 @@
 #import('lib/binarytree.dart', prefix: 'tree');
 #import('lib/dartunit.dart');
 
-class BinaryTree {
-
-  BinaryTree() {
-  }
-
-  void run() {
-    write("Hello World!");
-  }
-
-  void write(String message) {
-    // the HTML library defines a global "document" variable
-    document.query('#status').innerHTML = message;
-  }
-}
-
+/** Entry method. */
 void main() {
-  // Use of factory class
+  //NOTE: Use of factory class
   tree.Node leaf1 = new tree.Node<String>("my first leaf");
-  // Use of named constructor
+  //NOTE: Use of named constructor
   tree.Node leaf2 = new tree.Node<String>.leaf("my second leaf");
   //NOTE: dart is able to infer the Parameterized types (aka generics) 
   tree.Node node = new tree.Node("my node", leaf1, leaf2);
@@ -34,7 +20,7 @@ void main() {
   print(node.left);
   print(node.right);
   print(node.left.value);
-  // Not implemented: http://dartwatch.com/index.php/tag/nosuchmethod/
+  //NOTE: Not implemented: http://dartwatch.com/index.php/tag/nosuchmethod/
   print(node["thisDoesNotExists"]);
   print(node.thisDoesNotExists);
   
@@ -44,11 +30,6 @@ void main() {
   //NOTE: using a closure
   var logger = tree.loggerClosure();
   node.traverse(logger);
-//  node.children.forEach((c) => print(c.id));
-//  node.id = "test";
- // node.children.add(leaf2);
- // node.children.forEach((c) => print(c.id));
-  
   
   //NOTE: dart is able to infer the Parameterized types (aka generics) 
   tree.Node leafB1 = new tree.Node(3);
@@ -63,7 +44,7 @@ void main() {
   print(leafB1.value);
   print(leafB2.value);
   
-  //toString
+  //NOTE:toString
   print(leafB2);
   print(nodeB);
   
@@ -73,6 +54,13 @@ void main() {
   leaf2+" ciao";
   print(leaf2);
 
+  //NOTE: getter and setter
+  print(nodeB.left);
+  print(nodeB.right);
+  nodeB.right = leafB1;
+  print(nodeB.left);
+  print(nodeB.right);
+  
   assertEquals(1,2,"1 == 2?");
   assertEquals(1,2);
   assertEquals("3","3", "3 == 3?");

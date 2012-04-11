@@ -1,22 +1,43 @@
 #library("dartunit:assertion");
 #import('dart:html');
 
+/** 
+ * A library provising some testing stuff. 
+ */
+
+/** Version. */
 final version = "0.1";
 
+/** Where the result is injected. */
 var containerSelector = '#dartunit';
 
-var _container;
-
-var _results;
-
+/** **true* for logging on the console. */
 var cons = true; 
+/** **true* for injecting HTML. */
 var html = true; 
 
+var _container;
+var _results;
+
+/** 
+ * Assert that [expected] and [actual] are equal.
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
 void assertEquals(expected, actual, [String message]) {
   _init();
   _result(expected, actual, message);
 }
 
+/** 
+ * Handle [html] and [cons].
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
 _result(expected, actual, [String message]) {
   if (html) {
     _html(expected, actual, message);
@@ -26,10 +47,24 @@ _result(expected, actual, [String message]) {
   }
 }
 
+/** 
+ * Pring on the console [cons].
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
 _cons(expected, actual, [String message]) {
-  print("${expected==actual?'OK':'NOK'}, ${(message==null)? '${expected.toString()} == ${actual.toString()}' :message}, ${expected.toString()}, ${actual.toString()}");
+  print("${expected==actual?'OK':'NOK'}, ${(message==null) ? '${expected.toString()} == ${actual.toString()}' :message}, ${expected.toString()}, ${actual.toString()}");
 }
 
+/** 
+ * Inject HTML [html] on [containerSelector].
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
 _html(expected, actual, [String message]) {
   TableRowElement row = new Element.tag("tr");
   TableCellElement messageCell = new Element.tag("td");
@@ -45,6 +80,10 @@ _html(expected, actual, [String message]) {
   _results.nodes.add(row);
 }
 
+/** 
+ * Initialize the library querying the DOM (selector [containerSelector]) 
+ * for the element to inject the test result.
+ */
 _init() {
   if (_container==null) {
     _container = document.query(containerSelector);
