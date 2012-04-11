@@ -1,58 +1,95 @@
 /**
- * A simple [Node]
+ * A generic [Node] interface for a simple binary tree.
+ * 
+ * NOTE: use of generics. 
  */
 interface Node<V> default NodeFactory<V> {
+  
+  /** **true* if the node is a leaf. */
   bool isLeaf();
+
+  /** Traverse the tree and apply the function [f] to each [Node] */
   void traverse(f);  
 
-  //Constructors
+  /**
+   * Constructor for a [Node] with a [value] and two optional [Node], [left] and right.
+   * 
+   * NOTE: use of generics. 
+   */
   Node(V value, [Node left, Node right]);
-  //Constructors
-  //Named Constructor
+
+  /**
+   * Constructor for a [Node] leaf with a [value].
+   * 
+   * NOTE: Named Constructor. 
+   */
   Node.leaf(V value);
 
-  // Private field, optional type, force implementation to define this field
-  // Identify a [Node]
-  
-  //NOTE: optional types
+  //NOTE: optional types, force implementation to define this field
   var value;
 }
 
 /**
- * Node's default class.
+ * [Node]'s default class.
  */
 class NodeFactory<V>  {
+  
   /** 
-   * Node's default implementations.
-   * A [Node] may have [left] and [right] children, on this case is a [SimpleNode].
-   * A [Node] without [left] and [right] children is a [LeafNode]
-   * Throws an [IllegalArgumentException] if [id] is null.
+   * [Node]'s factory.
+   *
+   * A [Node] may have [left] and [right] children, on this case is a [BinaryNode].
+   * A [Node] without [left] and [right] children is a [LeafNode].
+   * Throws an [IllegalArgumentException] if [value] is null.
+   *
+   * NOTE: constructor name and optional params with default value
    */
-  //NOTE: constructor name and optional params with default value
   factory Node(V value, [Node left = null, Node right = null]) {
+    if (value == null) {
+      throw new IllegalArgumentException("Value can't be null.");
+    }
     if (left == null && right == null) {
-     return new LeafNode(value);
+      return new LeafNode(value);
     } else {
       return new BinaryNode(value, left, right);
     }
   }
-  //NOTE: constructor name
-  factory Node.leaf(V value) => new LeafNode(value);
+  
+  /** 
+   * Leaf's factory.
+   *
+   * A [Node] without [left] and [right] children is a [LeafNode].
+   *
+   * NOTE: constructor name
+   */
+  factory Node.leaf(V value) => new Node(value, null, null);
 }
 
-//NOTE: abstract class
+/**
+ * Abstract [Node].
+ */
 class AbstractNode<V> implements Node {
-  //NOTE: operator overloading. Works only in objects since binaryOperators take only one parameter (the second is this)
+
+  /**
+   * Overloading the + oprator for a [Node].
+   * 
+   * NOTE: Works only in objects since binaryOperators take only one parameter (the second is this).
+   */
   operator +(V other) {
     this.value += other;
   }
 }
 
+/**
+ * Binary [Node].
+ */
 class BinaryNode<V> extends AbstractNode {
+  
   //NOTE: default is public
   var value;
+  
   //NOTE: _ stand for private.
   final _left;
+  
   //_right is not final for demostrating setters.
   var _right;
   
@@ -79,27 +116,35 @@ class BinaryNode<V> extends AbstractNode {
   //NOTE: Setters
   set right(Node rightNode) => this._right = rightNode;
 
-  // Does not work in NodeFactory!
+  /** Called when infoking a method not implemented. */
+  // NOTE: Does not work if in NodeFactory!
   noSuchMethod(String functionName, List args) {
     //NOTE: String interpolation!
     print("Not implemented fuction: $functionName with args: $args");
   }
 
+  // NOTE: toString
   String toString() => "${value.toString()}, left: ${_left!=null?"yes":"no"}, right: ${_right!=null?"yes":"no"}";
 
 }
 
 /**
- *
+ * Leaf [Node].
  */
 class LeafNode<V> extends AbstractNode {
+  
   var value;
+  
+  /** Constructor */
   LeafNode(V this.value);
+  
+  /** Aways **true* */
   bool isLeaf() => true;
 
   traverse(f) {
     f(this);
   }
   
+  // NOTE: toString
   String toString() => value.toString();
 }
