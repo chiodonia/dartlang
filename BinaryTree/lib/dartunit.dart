@@ -28,7 +28,51 @@ var _results;
  */
 void assertEquals(expected, actual, [String message]) {
   _init();
-  _result(expected, actual, message);
+  //NOTE: First class functions
+  var equals = (expectedValue, actualValue) => expectedValue == actualValue;
+  _result(expected, actual, equals, message);
+}
+
+/** 
+ * Assert that [expected] and [actual] are not equal.
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
+void assertNotEquals(expected, actual, [String message]) {
+  _init();
+  //NOTE: First class functions
+  var notEquals = (expectedValue, actualValue) => expectedValue != actualValue;
+  _result(expected, actual, notEquals, message);
+}
+
+/** 
+ * Assert that [expected] and [actual] are the same object.
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
+void assertSameInstance(expected, actual, [String message]) {
+  _init();
+  //NOTE: First class functions
+  var sameInstance = (expectedValue, actualValue) => expectedValue === actualValue;
+  _result(expected, actual, sameInstance, message);
+}
+
+/** 
+ * Assert that [expected] and [actual] are not the same object.
+ *
+ * [expected] is the expected value.
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
+void assertNotSameInstance(expected, actual, [String message]) {
+  _init();
+  //NOTE: First class functions
+  var notSameInstance = (expectedValue, actualValue) => expectedValue !== actualValue;
+  _result(expected, actual, notSameInstance, message);
 }
 
 /** 
@@ -36,14 +80,15 @@ void assertEquals(expected, actual, [String message]) {
  *
  * [expected] is the expected value.
  * [actual] is the actual value.
+ * [fun] is the function to be evaluated value.
  * [message] describes the assertion (documentation).
  */
-_result(expected, actual, [String message]) {
+_result(expected, actual, fun, [String message]) {
   if (html) {
-    _html(expected, actual, message);
+    _html(expected, actual, fun, message);
   }
   if (cons) {
-    _cons(expected, actual, message);
+    _cons(expected, actual, fun, message);
   }
 }
 
@@ -52,10 +97,11 @@ _result(expected, actual, [String message]) {
  *
  * [expected] is the expected value.
  * [actual] is the actual value.
+ * [fun] is the function to be evaluated value.
  * [message] describes the assertion (documentation).
  */
-_cons(expected, actual, [String message]) {
-  print("${expected==actual?'OK':'NOK'}, ${(message==null) ? '${expected.toString()} == ${actual.toString()}' :message}, ${expected.toString()}, ${actual.toString()}");
+_cons(expected, actual, fun, [String message]) {
+  print("${fun(expected, actual)?'OK':'NOK'}, ${(message==null) ? '' :message}, ${expected.toString()}, ${actual.toString()}");
 }
 
 /** 
@@ -63,12 +109,13 @@ _cons(expected, actual, [String message]) {
  *
  * [expected] is the expected value.
  * [actual] is the actual value.
+ * [fun] is the function to be evaluated value.
  * [message] describes the assertion (documentation).
  */
-_html(expected, actual, [String message]) {
+_html(expected, actual, fun, [String message]) {
   TableRowElement row = new Element.tag("tr");
   TableCellElement messageCell = new Element.tag("td");
-  messageCell.text = (message==null)? '${expected.toString()} == ${actual.toString()}' :message;
+  messageCell.text = (message==null)? '' :message;
   TableCellElement expectedCell = new Element.tag("td");
   expectedCell.text = expected.toString();
   TableCellElement actualCell = new Element.tag("td");
@@ -76,7 +123,7 @@ _html(expected, actual, [String message]) {
   row.nodes.add(messageCell);
   row.nodes.add(expectedCell);
   row.nodes.add(actualCell);
-  row.bgColor = expected==actual?'green':'red';
+  row.bgColor = fun(expected, actual)?'green':'red';
   _results.nodes.add(row);
 }
 

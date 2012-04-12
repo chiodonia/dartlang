@@ -65,5 +65,7 @@ void main() {
   assertEquals(1,2);
   assertEquals("3","3", "3 == 3?");
   assertEquals("3","3");
+  
+  tree.draw(nodeB, "#tree");
 }
 
