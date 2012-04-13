@@ -20,6 +20,32 @@ var _container;
 var _results;
 
 /** 
+ * Assert that [actual] is **false*.
+ *
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
+void assertFalse(actual, [String message]) {
+  _init();
+  //NOTE: First class functions
+  var equals = (expectedValue, actualValue) => expectedValue == actualValue;
+  _result(false, actual, equals, message);
+}
+
+/** 
+ * Assert that [actual] is **true*.
+ *
+ * [actual] is the actual value.
+ * [message] describes the assertion (documentation).
+ */
+void assertTrue(actual, [String message]) {
+  _init();
+  //NOTE: First class functions
+  var equals = (expectedValue, actualValue) => expectedValue == actualValue;
+  _result(true, actual, equals, message);
+}
+
+/** 
  * Assert that [expected] and [actual] are equal.
  *
  * [expected] is the expected value.

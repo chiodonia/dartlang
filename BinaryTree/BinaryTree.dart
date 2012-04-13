@@ -9,61 +9,61 @@ void main() {
   //NOTE: Use of named constructor
   tree.Node leaf2 = new tree.Node<String>.leaf("my second leaf");
   //NOTE: dart is able to infer the Parameterized types (aka generics) 
-  tree.Node node = new tree.Node("my node", leaf1, leaf2);
-  print(leaf1 is tree.LeafNode);
-  print(leaf1 is tree.BinaryNode);
-  print(leaf2 is tree.LeafNode);
-  print(node is tree.BinaryNode);
-  print(tree.version);
+  tree.Node nodeA = new tree.Node("my node", leaf1, leaf2);
 
-  print(node.value);
-  print(node.left);
-  print(node.right);
-  print(node.left.value);
+  //NOTE: dart is able to infer the Parameterized types (aka generics) 
+  tree.Node leaf4 = new tree.Node(3);
+  tree.Node leaf3 = new tree.Node.leaf(2);
+  tree.Node nodeB = new tree.Node(10, leaf3, leaf4);
+  tree.Node nodeC = new tree.Node(20, nodeB);
+
+  assertTrue(leaf1 is tree.LeafNode, "leaf1 is of type LeafNode");
+  assertTrue(nodeA is tree.BinaryNode, "leaf1 is of type BinaryNode");
+
+  assertEquals("my node", nodeA.value, "Value is set as expected");
+  assertEquals(3, leaf4.value, "Value is set as expected");
+  assertSameInstance(leaf4, nodeB.right, "Node is set as expected");
+
   //NOTE: Not implemented: http://dartwatch.com/index.php/tag/nosuchmethod/
-  print(node["thisDoesNotExists"]);
-  print(node.thisDoesNotExists);
+//  print(nodeB["thisDoesNotExists"]);
+//  print(nodeB.thisDoesNotExists);
   
   //NOTE: passing a function as parameter
-  node.traverse(tree.loggerFucntion);
+  nodeC.traverse(tree.loggerFucntion);
 
   //NOTE: using a closure
   var logger = tree.loggerClosure();
-  node.traverse(logger);
+  nodeA.traverse(logger);
   
-  //NOTE: dart is able to infer the Parameterized types (aka generics) 
-  tree.Node leafB1 = new tree.Node(3);
-  tree.Node leafB2 = new tree.Node.leaf(2);
-  tree.Node nodeB = new tree.Node(10, leafB1, leafB2);
-  print(nodeB.value);
-  print(leafB1.value);
-  print(leafB2.value);
+  assertEquals(10, nodeB.value, "Value is set as expected");
+  assertEquals(2, nodeB.left.value, "Value is set as expected");
+  assertEquals(3, nodeB.right.value, "Value is set as expected");
   var add3 = tree.add(3);
   nodeB.traverse(add3);
-  print(nodeB.value);
-  print(leafB1.value);
-  print(leafB2.value);
+  assertEquals(13, nodeB.value, "Value is set as expected by add3");
+  assertEquals(5, nodeB.left.value, "Value is set as expected by add3");
+  assertEquals(6, nodeB.right.value, "Value is set as expected by add3");
   
   //NOTE:toString
-  print(leafB2);
+  print(leaf1);
   print(nodeB);
   
   //NOTE: use of operator overloading
-  leafB2+50;
-  print(leafB2);
-  leaf2+" ciao";
-  print(leaf2);
+  assertEquals(5, leaf3.value, "Value is set as expected");
+  leaf3+50;
+  assertEquals(55, leaf3.value, "Value is set as expected by operator +");
+
+  assertEquals("my first leaf", leaf1.value, "Value is set as expected");
+  leaf1+"!";
+  assertEquals("my first leaf!", leaf1.value, "Value is set as expected by operator +");
 
   //NOTE: getter and setter
   nodeB.id = "test";
-  print(nodeB.id);
-  
-  assertEquals(1,2,"1 == 2?");
-  assertEquals(1,2);
-  assertEquals("3","3", "3 == 3?");
-  assertEquals("3","3");
-  
-  tree.draw(nodeB, "#tree");
-  tree.draw(node, "#tree2");
+  assertEquals("test", nodeB.id, "Setters and getters");
+  assertEquals("0.1", tree.version, "Version is correct");
+
+  //Draw the tries
+  tree.draw(nodeA, "#treeA");
+  tree.draw(nodeC, "#treeC");
 }
 

@@ -31,9 +31,9 @@ Function loggerFucntion(Node node) {
   var indent;
   (node.isLeaf()) ? indent = "   ": indent="";
   var str =
-'''${indent}${_separator(node.value.length+1)}
+'''${indent}${_separator(node.value.toString().length+1)}
 ${indent}|${node.value}|
-${indent}${_separator(node.value.length+1)}''';
+${indent}${_separator(node.value.toString().length+1)}''';
   print(str);
   //NOTE: will return null
 }
