@@ -27,6 +27,7 @@ interface Node<V> default NodeFactory<V> {
 
   //NOTE: optional types, force implementation to define this field
   var value;
+
 }
 
 /**
@@ -86,21 +87,20 @@ class BinaryNode<V> extends AbstractNode {
   
   //NOTE: default is public
   var value;
-  
+  var _id;
+
   //NOTE: _ stand for private.
   final _left;
+  final _right;
   
-  //_right is not final for demostrating setters.
-  var _right;
-  
-  bool isLeaf() => false;
+  bool isLeaf() => (!this.hasLeft() && !this.hasRight());
 
   traverse(f) {
     f(this);
-    if (this._left != null) {
+    if (hasLeft()) {
       this._left.traverse(f);
     }
-    if (this._right != null) {
+    if (hasRight()) {
       this._right.traverse(f);
     }
   }
@@ -109,13 +109,19 @@ class BinaryNode<V> extends AbstractNode {
   BinaryNode(V this.value, Node this._left, Node this._right);
   
   //NOTE: Short function syntax: => stand for evaluate and return
-  //NOTE: Getters
   Node get left() => _left;
   Node get right() => _right;
 
-  //NOTE: Setters
-  set right(Node rightNode) => this._right = rightNode;
+  //NOTE: Getter and setter.
+  V get id() => _id;
+  set id(V id) => this._id = id;
+  
+  /** **true* if there is a left [Node] */
+  bool hasLeft() => this._left != null;
 
+  /** **true* if there is a right [Node] */
+  bool hasRight() => this._right != null;
+  
   /** Called when infoking a method not implemented. */
   // NOTE: Does not work if in NodeFactory!
   noSuchMethod(String functionName, List args) {
@@ -133,8 +139,9 @@ class BinaryNode<V> extends AbstractNode {
  */
 class LeafNode<V> extends AbstractNode {
   
+  //NOTE: default is public
   var value;
-  
+
   /** Constructor */
   LeafNode(V this.value);
   

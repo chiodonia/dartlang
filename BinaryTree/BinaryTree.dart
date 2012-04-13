@@ -55,11 +55,8 @@ void main() {
   print(leaf2);
 
   //NOTE: getter and setter
-  print(nodeB.left);
-  print(nodeB.right);
-  nodeB.right = leafB1;
-  print(nodeB.left);
-  print(nodeB.right);
+  nodeB.id = "test";
+  print(nodeB.id);
   
   assertEquals(1,2,"1 == 2?");
   assertEquals(1,2);
