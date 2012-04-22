@@ -63,7 +63,7 @@ void main() {
   assertEquals("0.1", tree.version, "Version is correct");
 
   //Draw the tries
-  tree.draw(nodeA, "#treeA");
+  //tree.draw(nodeA, "#treeA");
   tree.draw(nodeC, "#treeC");
 }
 

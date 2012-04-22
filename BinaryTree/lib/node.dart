@@ -68,7 +68,7 @@ class NodeFactory<V>  {
 /**
  * Abstract [Node].
  */
-class AbstractNode<V> implements Node {
+abstract class AbstractNode<V> implements Node {
 
   /**
    * Overloading the + oprator for a [Node].
